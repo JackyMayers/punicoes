@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Relatório</title>
+    <link rel="icon" href="https://i.postimg.cc/MG7qzW4x/emote.png" type="image/x-icon"> <!-- Favicon -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .title {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        select, input[type="number"], input[type="submit"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #e9ecef;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #777;
+        }
+        footer img {
+            vertical-align: middle;
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+        .exemplos {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px dashed #ccc;
+            font-style: italic;
+        }
+        .exemplo-texto {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Gerador de Relatório</h1>
+
+        <form id="relatorioForm">
+            <div class="form-group">
+                <label for="id">ID:</label>
+                <input type="number" id="id" required>
+            </div>
+
+            <div class="form-group">
+                <label for="idDiscord">ID Discord:</label>
+                <input type="text" id="idDiscord" required>
+            </div>
+
+            <div class="form-group">
+                <label for="profissao">Escolha a profissão:</label>
+                <select id="profissao" required>
+                    <option value="">Selecione uma profissão</option> <!-- Opção em branco -->
+                    <option value="faxineiro">Faxineiro</option>
+                    <option value="lenhador">Lenhador</option>
+                    <option value="minerador">Minerador</option>
+                    <option value="motoboy">Motoboy</option>
+                    <option value="lixeiro">Lixeiro</option>
+                    <option value="cancador">Caçador</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="opcoesProfissao">
+                <!-- As opções de profissão (Arma/Veículo) serão mostradas aqui -->
+            </div>
+
+            <div class="form-group">
+                <label for="tempo">Tempo:</label>
+                <select id="tempo" required>
+                    <option value="advertencia">Advertência</option>
+                </select>
+            </div>
+
+            <input type="submit" value="Gerar Relatório">
+        </form>
+
+        <div id="resultado" class="output" style="display:none;">
+            <!-- O resultado do relatório será mostrado aqui -->
+        </div>
+
+        <div id="exemplos" class="exemplos" style="display:none;">
+            <!-- Exemplos de observação de profissão -->
+        </div>
+    </div>
+
+    <footer>
+        <img src="https://i.postimg.cc/WzSNyqxY/Jacky-Confuso.png" alt="Placeholder Image">
+        <p>Direitos Reservados © 2024 <a href="https://jackymayers.github.io/" target="_blank">Jacky Mayers</a>.</p>
+    </footer>
+
+    <script>
+        document.getElementById('profissao').addEventListener('change', atualizarOpcoes);
+        document.getElementById('relatorioForm').addEventListener('submit', gerarRelatorio);
+
+        // Atualiza as opções de acordo com a profissão
+        function atualizarOpcoes() {
+            var profissao = document.getElementById('profissao').value;
+            var opcoesDiv = document.getElementById('opcoesProfissao');
+            var exemplosDiv = document.getElementById('exemplos');
+            opcoesDiv.innerHTML = ''; // Limpa as opções existentes
+            exemplosDiv.innerHTML = ''; // Limpa os exemplos anteriores
+            exemplosDiv.style.display = 'none'; // Esconde a seção de exemplos
+
+            if (profissao === 'lixeiro') {
+                opcoesDiv.innerHTML = ` 
+                    <label for="lixeiroOpcao">Escolha a opção para Lixeiro:</label>
+                    <select id="lixeiroOpcao" required>
+                        <option value="roupa">Roupa</option>
+                        <option value="veiculo">Veículo</option>
+                        <option value="roupa_veiculo">Roupa e Veículo</option>
+                    </select>
+                `;
+                exemplosDiv.innerHTML = `
+                    <span class="exemplo-texto">Lixeiro:</span> Verificamos se está com sapato, luvas, colete refletor, camiseta ou até mesmo calça. Além disso, também é necessário verificar se há um caminhão trash.
+                `;
+                exemplosDiv.style.display = 'block';
+            } else if (profissao === 'faxineiro') {
+                // Se for faxineiro, apenas mostra o aviso de roupa inadequada
+                exemplosDiv.innerHTML = `
+                    <span class="exemplo-texto">Faxineiro:</span> Verificamos se está com calça, sapatos, camiseta e o cinto com ferramentas.
+                `;
+                exemplosDiv.style.display = 'block';
+            } else if (profissao === 'cancador') {
+                opcoesDiv.innerHTML = `
+                    <label for="cancadorOpcao">Escolha a opção para Caçador:</label>
+                    <select id="cancadorOpcao" required>
+                        <option value="roupa">Roupa</option>
+                        <option value="arma">Arma</option>
+                        <option value="roupa_arma">Roupa e Arma</option>
+                    </select>
+                `;
+                exemplosDiv.innerHTML = `
+                    <span class="exemplo-texto">Caçador:</span> Verificamos se está usando roupas fechadas, luvas, sapatos e rifle de caça.
+                `;
+                exemplosDiv.style.display = 'block';
+            } else if (profissao === 'lenhador') {
+                // Para lenhador, mostrar motivo de "roupa inadequada"
+                exemplosDiv.innerHTML = `
+                    <span class="exemplo-texto">Lenhador:</span> Verificamos se está com luvas, sapatos e camiseta. Atenção a tops ou biquínis em mulheres.
+                `;
+                exemplosDiv.style.display = 'block';
+            } else if (profissao === 'minerador') {
+                exemplosDiv.innerHTML = `
+                    <span class="exemplo-texto">Minerador:</span> Verificamos se está com luvas, colete refletor, capacete protetor, calças e camiseta.
+                `;
+                exemplosDiv.style.display = 'block';
+            } else if (profissao === 'motoboy') {
+                exemplosDiv.innerHTML = `
+                    <span class="exemplo-texto">Motoboy:</span> Verificamos se está com colete refletor, mochila e capacete.
+                `;
+                exemplosDiv.style.display = 'block';
+            }
+        }
+
+        // Gera o relatório com base nas opções selecionadas
+        function gerarRelatorio(event) {
+            event.preventDefault();
+
+            var id = document.getElementById('id').value;
+            var idDiscord = document.getElementById('idDiscord').value;
+            var profissao = document.getElementById('profissao').value;
+            var motivo = '';
+            var opcao = '';
+            var tempo = document.getElementById('tempo').value;
+
+            // Definir o motivo baseado na profissão e seleção
+            if (profissao === 'lixeiro') {
+                opcao = document.getElementById('lixeiroOpcao').value;
+                if (opcao === 'veiculo') {
+                    motivo = 'Veículo inadequado para realizar o trabalho de lixeiro';
+                } else if (opcao === 'roupa') {
+                    motivo = 'Roupa inadequada para realizar o trabalho de lixeiro';
+                } else if (opcao === 'roupa_veiculo') {
+                    motivo = 'Roupa e veículo inadequados para realizar o trabalho de lixeiro';
+                }
+            } else if (profissao === 'faxineiro') {
+                motivo = 'Roupa inadequada para realizar o trabalho de faxineiro';
+            } else if (profissao === 'lenhador') {
+                motivo = 'Roupa inadequada para realizar o trabalho de lenhador';
+            } else if (profissao === 'minerador') {
+                motivo = 'Roupa inadequada para realizar o trabalho de minerador';
+            } else if (profissao === 'motoboy') {
+                motivo = 'Roupa inadequada para realizar o trabalho de motoboy';
+            } else if (profissao === 'cancador') {
+                opcao = document.getElementById('cancadorOpcao').value;
+                if (opcao === 'arma') {
+                    motivo = 'Arma inadequada para realizar o trabalho de caçador';
+                } else if (opcao === 'roupa') {
+                    motivo = 'Roupa inadequada para realizar o trabalho de caçador';
+                } else if (opcao === 'roupa_arma') {
+                    motivo = 'Roupa e arma inadequadas para realizar o trabalho de caçador';
+                }
+            }
+
+            var resultado = `ID: ${id}\nID Discord: ${idDiscord} | <@${idDiscord}>\nMotivo: ${motivo}\nTempo: ${tempo}\nProvas:`;
+
+            var resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.style.display = 'block';
+            resultadoDiv.textContent = resultado;
+        }
+    </script>
+</body>
+</html>
