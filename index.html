@@ -1,90 +1,134 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Punição Serviços</title>
- <center>
-    <font size="5">Ainda em testes, preste atenção as informações geradas, caso encontre erro reporte e use o antigo.  <a href="https://jackymayers.github.io/punirel/">Clique aqui!!</a></font> <br />
-      </center>
   <link rel="icon" href="https://i.postimg.cc/MG7qzW4x/emote.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #121212;
       color: #ffffff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      display: flex;
       flex-direction: column;
+      align-items: center;
     }
-    h1 {
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
       margin-bottom: 20px;
     }
-    input, select, textarea, button {
-      margin-bottom: 12px;
-      padding: 10px;
-      width: 100%;
-      max-width: 500px;
-      border-radius: 5px;
-      border: 1px solid #333;
-      background: #1e1e1e;
-      color: white;
+
+    header p {
+      font-size: 16px;
+      margin: 10px 0;
     }
+
+    header a {
+      color: #4fc3f7;
+      text-decoration: underline;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #90caf9;
+    }
+
+    label {
+      margin: 8px 0 4px;
+      font-weight: bold;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background-color: #1e1e1e;
+      color: #fff;
+      font-size: 14px;
+    }
+
     button {
       background-color: #3f51b5;
-      color: white;
+      border: none;
       cursor: pointer;
       transition: background-color 0.3s;
     }
+
     button:hover {
       background-color: #303f9f;
     }
+
     textarea {
-      height: 300px;
       resize: none;
+      height: 300px;
     }
+
     .hidden {
       display: none;
     }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    .form-group {
+
+    .inline-group {
       display: flex;
-      flex-direction: column;
-      width: 100%;
-      max-width: 500px;
+      gap: 10px;
+      align-items: center;
     }
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      margin-top: 8px;
+
+    .footer {
+      text-align: center;
+      margin: 30px 0 10px;
+      font-size: 14px;
+      color: #aaa;
     }
-    .form-group button {
-      width: auto;
-      margin-top: 12px;
+
+    .footer a {
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .footer img {
+      margin-top: 10px;
+    }
+
+    @media (max-width: 600px) {
+      .inline-group {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Gerador de Advertência</h1>
+  <header>
+    <p>Ainda em testes, preste atenção nas informações geradas. Caso encontre erro, reporte e use o antigo: <a href="https://jackymayers.github.io/punirel/" target="_blank">Clique aqui!</a></p>
+  </header>
 
-  <div class="form-group">
+  <div class="container">
+    <h1>Punições serviços XP</h1>
+
     <label for="id">ID</label>
-    <input type="text" id="id" placeholder="ID">
-  </div>
-  
-  <div class="form-group">
-    <label for="idDiscord">ID Discord</label>
-    <input type="text" id="idDiscord" placeholder="ID Discord">
-  </div>
+    <input type="text" id="id" placeholder="ID" />
 
-  <div class="form-group">
+    <label for="idDiscord">ID Discord</label>
+    <input type="text" id="idDiscord" placeholder="ID Discord" />
+
     <label for="profissao">Profissão</label>
     <select id="profissao" onchange="mostrarOpcoesAdicionais()">
       <option value="Faxineiro">Faxineiro</option>
@@ -94,62 +138,59 @@
       <option value="Lixeiro">Lixeiro</option>
       <option value="Caçador">Caçador</option>
     </select>
-  </div>
 
-  <div id="opcoesLixeiro" class="hidden">
-    <label for="opcaoLixeiro">Escolha o tipo de advertência</label>
-    <select id="opcaoLixeiro" onchange="atualizarAdvertencia()">
-      <option value="Roupa">Roupa</option>
-      <option value="Veiculo">Veículo</option>
-      <option value="RoupaVeiculo">Roupa e Veículo</option>
-    </select>
-  </div>
+    <div id="opcoesLixeiro" class="hidden">
+      <label for="opcaoLixeiro">Tipo de advertência</label>
+      <select id="opcaoLixeiro" onchange="atualizarAdvertencia()">
+        <option value="Roupa">Roupa</option>
+        <option value="Veiculo">Veículo</option>
+        <option value="RoupaVeiculo">Roupa e Veículo</option>
+      </select>
+    </div>
 
-  <div id="opcoesCacador" class="hidden">
-    <label for="opcaoCacador">Escolha o tipo de advertência</label>
-    <select id="opcaoCacador" onchange="atualizarAdvertencia()">
-      <option value="Roupa">Roupa</option>
-      <option value="Arma">Arma</option>
-      <option value="RoupaArma">Roupa e Arma</option>
-    </select>
-  </div>
+    <div id="opcoesCacador" class="hidden">
+      <label for="opcaoCacador">Tipo de advertência</label>
+      <select id="opcaoCacador" onchange="atualizarAdvertencia()">
+        <option value="Roupa">Roupa</option>
+        <option value="Arma">Arma</option>
+        <option value="RoupaArma">Roupa e Arma</option>
+      </select>
+    </div>
 
-  <div class="form-group">
     <label for="tipoAdvertencia">Tipo de Advertência</label>
     <select id="tipoAdvertencia" onchange="mostrarCamposTipo2(); atualizarAdvertencia();">
       <option value="1">Advertência 1</option>
       <option value="2">Advertência 2</option>
     </select>
-  </div>
 
-  <div id="dadosAdvertencia2" class="hidden">
-    <div class="form-group">
-      <label for="nomeStaff">Nome da Staff</label>
-      <input type="text" id="nomeStaff" placeholder="Nome da Staff">
-    </div>
-    <div class="form-group">
-      <label for="tratamento">Tratamento</label>
-      <select id="tratamento">
-        <option value="o">o</option>
-        <option value="a">a</option>
-      </select>
-    </div>
-    <div class="form-group">
+    <div id="dadosAdvertencia2" class="hidden">
+      <div class="inline-group">
+        <label for="tratamento">"O" ou "A"</label>
+        <select id="tratamento" onchange="atualizarAdvertencia()">
+          <option value="o">O</option>
+          <option value="a">A</option>
+        </select>
+
+        <label for="nomeStaff">Staff</label>
+        <input type="text" id="nomeStaff" placeholder="Nome da Staff" />
+      </div>
+
       <label for="data1">Data 1</label>
-      <input type="text" id="data1" placeholder="Data 1 ex: 0705 ou 07/05">
-    </div>
-    <div class="form-group">
+      <input type="text" id="data1" placeholder="ex: 0705 ou 07/05" />
+
       <label for="data2">Data 2</label>
-      <input type="text" id="data2" placeholder="Data 2 ex: 0805 ou 08/05">
+      <input type="text" id="data2" placeholder="ex: 0805 ou 08/05" />
     </div>
-  </div>
 
-  <div class="form-group">
     <button onclick="gerarRelatorio()">Gerar Relatório</button>
+
+    <label for="relatorio">Relatório</label>
+    <textarea id="relatorio" readonly></textarea>
   </div>
 
-  <div class="form-group">
-    <textarea id="relatorio" readonly></textarea>
+  <div class="footer">
+    <img src="https://i.postimg.cc/WzSNyqxY/Jacky-Confuso.png" alt="Jacky Confuso" width="100" />
+    <p>© 2025 - Feito com ❤, ajuda de IA e um pouquinho de preguiça por <a href="https://jackymayers.github.io/" target="_blank">Jacky Mayers</a>!</p>
   </div>
 
   <script>
@@ -270,11 +311,5 @@
       return texto;
     }
   </script>
-  <center>
-  <img src="https://i.postimg.cc/WzSNyqxY/Jacky-Confuso.png" alt="Placeholder Image" width="150">
-  <p>© 2025 - Todos os direitos reservados. Feito com ❤, ajuda de IA e um pouquinho de preguiça por <a href="https://jackymayers.github.io/" target="_blank">Jacky Mayers</a>!</p>
-  </center>
 </body>
 </html>
-
-
