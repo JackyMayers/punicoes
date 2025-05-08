@@ -1,19 +1,280 @@
-
-
 <!DOCTYPE html>
- 
-<html>
- <head>
-    <title> Puniçoes serviço</title>
-  <meta name="description" content="Atualzado">
- </head>
- 
- <body> 
-    <center>
-    <font size="7"> <a href="https://jackymayers.github.io/punirel/">Atualizado, clique aqui!</a></font> <br />
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Punição Serviços</title>
+ <center>
+    <font size="7">Ainda em testes, preste atenção as informações geradas, caso encontre erro reporte e use o antigo.  <a href="https://jackymayers.github.io/punirel/">Clique aqui!!</a></font> <br />
       </center>
- </body>
- 
+  <link rel="icon" href="https://i.postimg.cc/MG7qzW4x/emote.png" type="image/x-icon">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      flex-direction: column;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    input, select, textarea, button {
+      margin-bottom: 12px;
+      padding: 10px;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 5px;
+      border: 1px solid #333;
+      background: #1e1e1e;
+      color: white;
+    }
+    button {
+      background-color: #3f51b5;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #303f9f;
+    }
+    textarea {
+      height: 300px;
+      resize: none;
+    }
+    .hidden {
+      display: none;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 500px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      margin-top: 8px;
+    }
+    .form-group button {
+      width: auto;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gerador de Advertência</h1>
+
+  <div class="form-group">
+    <label for="id">ID</label>
+    <input type="text" id="id" placeholder="ID">
+  </div>
+  
+  <div class="form-group">
+    <label for="idDiscord">ID Discord</label>
+    <input type="text" id="idDiscord" placeholder="ID Discord">
+  </div>
+
+  <div class="form-group">
+    <label for="profissao">Profissão</label>
+    <select id="profissao" onchange="mostrarOpcoesAdicionais()">
+      <option value="Faxineiro">Faxineiro</option>
+      <option value="Lenhador">Lenhador</option>
+      <option value="Minerador">Minerador</option>
+      <option value="Motoboy">Motoboy</option>
+      <option value="Lixeiro">Lixeiro</option>
+      <option value="Caçador">Caçador</option>
+    </select>
+  </div>
+
+  <div id="opcoesLixeiro" class="hidden">
+    <label for="opcaoLixeiro">Escolha o tipo de advertência</label>
+    <select id="opcaoLixeiro" onchange="atualizarAdvertencia()">
+      <option value="Roupa">Roupa</option>
+      <option value="Veiculo">Veículo</option>
+      <option value="RoupaVeiculo">Roupa e Veículo</option>
+    </select>
+  </div>
+
+  <div id="opcoesCacador" class="hidden">
+    <label for="opcaoCacador">Escolha o tipo de advertência</label>
+    <select id="opcaoCacador" onchange="atualizarAdvertencia()">
+      <option value="Roupa">Roupa</option>
+      <option value="Arma">Arma</option>
+      <option value="RoupaArma">Roupa e Arma</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="tipoAdvertencia">Tipo de Advertência</label>
+    <select id="tipoAdvertencia" onchange="mostrarCamposTipo2(); atualizarAdvertencia();">
+      <option value="1">Advertência 1</option>
+      <option value="2">Advertência 2</option>
+    </select>
+  </div>
+
+  <div id="dadosAdvertencia2" class="hidden">
+    <div class="form-group">
+      <label for="nomeStaff">Nome da Staff</label>
+      <input type="text" id="nomeStaff" placeholder="Nome da Staff">
+    </div>
+    <div class="form-group">
+      <label for="tratamento">Tratamento</label>
+      <select id="tratamento">
+        <option value="o">o</option>
+        <option value="a">a</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="data1">Data 1</label>
+      <input type="text" id="data1" placeholder="Data 1 ex: 0705 ou 07/05">
+    </div>
+    <div class="form-group">
+      <label for="data2">Data 2</label>
+      <input type="text" id="data2" placeholder="Data 2 ex: 0805 ou 08/05">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button onclick="gerarRelatorio()">Gerar Relatório</button>
+  </div>
+
+  <div class="form-group">
+    <textarea id="relatorio" readonly></textarea>
+  </div>
+
+  <script>
+    function mostrarOpcoesAdicionais() {
+      const prof = document.getElementById('profissao').value;
+      document.getElementById('opcoesLixeiro').classList.toggle('hidden', prof !== 'Lixeiro');
+      document.getElementById('opcoesCacador').classList.toggle('hidden', prof !== 'Caçador');
+      atualizarAdvertencia();
+    }
+
+    function mostrarCamposTipo2() {
+      const tipo = document.getElementById('tipoAdvertencia').value;
+      document.getElementById('dadosAdvertencia2').classList.toggle('hidden', tipo !== '2');
+    }
+
+    function atualizarAdvertencia() {
+      const prof = document.getElementById('profissao').value;
+      let motivo = 'Roupa inadequada';
+      if (prof === 'Lixeiro') {
+        const op = document.getElementById('opcaoLixeiro').value;
+        if (op === 'Veiculo') motivo = 'Veículo inadequado';
+        else if (op === 'RoupaVeiculo') motivo = 'Roupa e veículo inadequados';
+      }
+      if (prof === 'Caçador') {
+        const op = document.getElementById('opcaoCacador').value;
+        if (op === 'Arma') motivo = 'Arma inadequada';
+        else if (op === 'RoupaArma') motivo = 'Roupa e arma inadequadas';
+      }
+      document.getElementById('relatorio').setAttribute('data-motivoResumo', motivo);
+    }
+
+    function gerarRelatorio() {
+      const id = document.getElementById('id').value;
+      const discord = document.getElementById('idDiscord').value;
+      const prof = document.getElementById('profissao').value;
+      const tipo = document.getElementById('tipoAdvertencia').value;
+      const motivo = document.getElementById('relatorio').getAttribute('data-motivoResumo') || 'Roupa inadequada';
+
+      const nomeStaff = document.getElementById('nomeStaff').value;
+      const tratamento = document.getElementById('tratamento').value;
+      const data1Input = document.getElementById('data1').value;
+      const data2Input = document.getElementById('data2').value;
+
+      const detalhes = {
+        Faxineiro: '(Faxineiro: calça, sapatos, camiseta e cinto com ferramentas).',
+        Lenhador: '(Lenhador: luvas, sapatos, camiseta e calça).',
+        Minerador: '(Minerador: luvas, colete refletor, capacete, calças e camiseta).',
+        Motoboy: '(Motoboy: colete refletor, mochila e capacete).',
+        Lixeiro: {
+          Roupa: '(Lixeiro: sapato, luvas, colete refletor, camiseta e calça).',
+          Veiculo: '(Lixeiro: caminhão trash).',
+          RoupaVeiculo: '(Lixeiro: sapato, luvas, colete refletor, camiseta, calça e caminhão trash).'
+        },
+        Caçador: {
+          Roupa: '(Caçador: roupas fechadas, luvas e sapatos).',
+          Arma: '(Caçador: rifle de caça).',
+          RoupaArma: '(Caçador: roupas fechadas, luvas, sapatos e rifle de caça).'
+        }
+      };
+
+      let detalhe = detalhes[prof];
+      if (typeof detalhe === 'object') {
+        detalhe = detalhe[prof === 'Lixeiro' ? document.getElementById('opcaoLixeiro').value : document.getElementById('opcaoCacador').value];
+      }
+
+      let relatorio = `ID: ${id}\nID Discord: ${discord} | <@${discord}>\nProfissão: ${prof}\nMotivo da Advertência: ${motivo} para realizar o trabalho de ${prof.toLowerCase()}\nStatus: Advertência\nProvas:\n\n`;
+
+      if (tipo === '1') {
+        relatorio += `Boa tarde. Estamos registrando uma advertência pelo uso inadequado do uniforme de trabalho. Lembre-se de que é essencial utilizar a vestimenta correta para o serviço que está sendo realizado. Em caso de reincidência, uma punição entrará em vigor. ${detalhe}`;
+      } else {
+        const dataTexto = montarTextoData(data1Input, data2Input);
+        relatorio += `Boa Tarde, você está sendo convidad${tratamento} a participar de uma reunião com a Equipe de Suporte. Procure ${tratamento} ${nomeStaff}, para agendar um horário no PRIVADO, ${dataTexto}. Motivo: ${motivo} para realizar o trabalho de ${prof.toLowerCase()}`;
+      }
+
+      document.getElementById('relatorio').value = relatorio;
+    }
+
+    function normalizarDataBr(str) {
+      const soNumeros = str.replace(/[^\d]/g, '');
+      const hoje = new Date();
+      const anoAtual = hoje.getFullYear();
+
+      if (soNumeros.length === 4) {
+        return new Date(`${anoAtual}-${soNumeros.slice(2, 4)}-${soNumeros.slice(0, 2)}T00:00:00`);
+      }
+      if (soNumeros.length === 8) {
+        return new Date(`${soNumeros.slice(4, 8)}-${soNumeros.slice(2, 4)}-${soNumeros.slice(0, 2)}T00:00:00`);
+      }
+      return null;
+    }
+
+    function montarTextoData(d1, d2) {
+      const hoje = new Date();
+      const amanha = new Date();
+      amanha.setDate(hoje.getDate() + 1);
+
+      const data1 = normalizarDataBr(d1);
+      const data2 = normalizarDataBr(d2);
+
+      const f1 = data1?.toLocaleDateString('pt-BR');
+      const f2 = data2?.toLocaleDateString('pt-BR');
+
+      if (!data1 || isNaN(data1)) return 'data inválida';
+
+      let texto = '';
+      const hojeF = hoje.toLocaleDateString('pt-BR');
+      const amanhaF = amanha.toLocaleDateString('pt-BR');
+
+      if (f1 === hojeF) texto += `na data de hoje (${f1})`;
+      else if (f1 === amanhaF) texto += `na data de amanhã (${f1})`;
+      else texto += `na data de (${f1})`;
+
+      if (data2 && !isNaN(data2)) {
+        if (f2 === amanhaF) texto += ` ou amanhã (${f2})`;
+        else texto += ` ou (${f2})`;
+      }
+
+      return texto;
+    }
+  </script>
+  <center>
+  <img src="https://i.postimg.cc/WzSNyqxY/Jacky-Confuso.png" alt="Placeholder Image" width="150">
+  <p>© 2025 - Todos os direitos reservados. Feito com ❤, ajuda de IA e um pouquinho de preguiça por <a href="https://jackymayers.github.io/" target="_blank">Jacky Mayers</a>!</p>
+  </center>
+</body>
 </html>
 
 
