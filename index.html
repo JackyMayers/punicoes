@@ -243,7 +243,7 @@
       if (typeof detalhe === 'object') {
         detalhe = detalhes[prof === 'Lixeiro' ? document.getElementById('opcaoLixeiro').value : document.getElementById('opcaoCacador').value];
       }
-      let relatorio = `ID: ${id}\nID Discord: ${discord} | <@${discord}>\nProfissão: ${prof}\nMotivo da Advertência: ${motivo} para realizar o trabalho de ${prof.toLowerCase()}\nStatus: Advertência\nProvas:\n\n`;
+      let relatorio = `**ID:** ${id}\n**ID Discord:** ${discord} | <@${discord}>\n**Profissão:** ${prof}\n**Motivo da Advertência:** ${motivo} para realizar o trabalho de ${prof.toLowerCase()}\n**Status:** Advertência\n**Provas:**\n\n`;
       if (tipo === '1') {
         if (prof === 'Lixeiro') {
           if (document.getElementById('opcaoLixeiro').value === 'Roupa') {
